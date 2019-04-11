@@ -1,13 +1,46 @@
-h1,h2,h3,h4{
-  background-color: #aaa; /*temorario*/
-  color:#fff;
-}
-
-body{
-  background-color: #777; /*temorario*/
-}
-
 
 header{
-  background-color: #555; /*temorario*/
+background-image: url(../image/fundo-perfil.jpg);
+background-size: cover;
+background-repeat: no-repeat;
 }
+
+ul{
+    list-style-type: none;
+}
+
+h1,h2,h3,h4{
+color: #a0522d;
+}
+
+h2{
+margin-top:20px;
+}
+
+
+.texto-branco{
+color: #fff;
+}
+
+.row {
+margin-top: 10px;
+}
+.experiencia-cargo, .titulo-formacao{
+font-weight: bold;
+}
+
+#contato, #localidade{
+font-weight: bold;
+}
+#contato ul li a {
+text-decoration : none;
+color: red;
+}
+.titulo-skill{
+margin:15px;
+padding : 15px;
+border-radius: 30px;
+background-color: #efefef;
+border: 2px dashed #a0522d;
+}
+

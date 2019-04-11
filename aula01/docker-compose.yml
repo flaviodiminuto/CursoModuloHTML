@@ -1,0 +1,51 @@
+version: '3'
+services:
+  nginx:
+    image: douglasq/nginx
+    container_name: composed-servidor-web
+    ports: 
+      - "80:80"
+    networks:
+      - producion-network
+    depends_on:
+      - "node1"
+      - "node2"
+      - "node3"
+
+  mongodb:
+    image: mongo
+    networks:
+      - producion-network
+
+  node1:
+    image: douglasq/alura-books:cap05
+    container_name: alura-books-1
+    ports:
+      - "3000"
+    networks:
+      - producion-network
+    depends_on:
+      - "mongodb"
+    
+  node2:
+    image: douglasq/alura-books:cap05
+    container_name: alura-books-2
+    ports:
+      - "3000"
+    networks:
+      - producion-network
+    depends_on:
+      - "mongodb"
+  node3:
+    image: douglasq/alura-books:cap05
+    container_name: alura-books-3
+    ports:
+      - "3000"
+    networks:
+      - producion-network
+    depends_on:
+      - "mongodb"
+
+networks:
+  producion-network:
+    driver: bridge
