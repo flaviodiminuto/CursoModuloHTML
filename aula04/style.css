@@ -1,0 +1,108 @@
+/*CONFIGURAÇÃO REGRAS GERAIS E MOBILE*/
+#footer1, #footer3{
+  background-color: #aaa;
+}
+
+#header-esquerda{
+  background-color: #aad;
+}
+#header-direita{
+  display: none;
+}
+
+#menu{
+  background-color: #ddd;
+  height: 30px;
+  width: 100%;
+  float: left;
+}
+
+#principal{
+    height: 400px;
+    width: 100%;
+    float: left;
+  }
+#footer3{
+  display: none;
+}
+
+
+
+#footer2{
+  background-color: #ddd;
+}
+.bloco{
+  height:90px;
+  background-color: gray;
+}
+
+.bloco-footer{
+  width:200px;
+  height: 200px;
+  float:left;
+}
+.container{
+  width:400px;
+  margin: auto;
+}
+
+/*CONFIGURAÇÕES DE TABLET*/
+@media screen and (min-width: 610px){
+
+  #menu{
+    height: 60px;
+  }
+
+  #header-direita{
+    display: inherit;
+    width:100px;
+    height: 150px;
+    float:left;
+  }
+  #header-esquerda{
+    display: inherit;
+    width:500px;
+    height: 150px;
+    float:left;
+  }
+  #footer3{
+    display: inherit;
+  }
+  .container{
+    width:600px;
+    margin:auto;
+  }
+
+  .bloco-footer{
+    width:200px;
+  }
+
+}
+
+/*CONFIGURAÇÕES PARA DESKTOPES*/
+@media screen and (min-width: 910px){
+  #header-esquerda{
+    height: 150px;
+    width: 700px;
+    float: left;
+  }
+  #header-direita{
+    height: 150px;
+    width:200px;
+    float: left;
+  }
+
+  #footer3{
+    display: inherit;
+  }
+  .container{
+  margin:auto;
+  width:900px;
+  }
+  .bloco-footer{
+    width:300px;
+    height: 200px;
+    float:left;
+  }
+
+}
