@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Sorteio</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <script type="text/javascript">
+
+        function validaInput(input){
+          let noError = false;
+          if(input.value == ""){
+              input.setCustomValidity('O campo '+input.id+' precisa ser preenchido!');
+              input.className= "form-control is-invalid";
+          }else{
+            input.setCustomValidity('');
+            input.className= "form-control is-valid";
+            noError = true;
+          }
+          return noError;
+        }
+
+        function validaValor(input){
+          if(validaInput(input)){
+            return true;
+          }
+          return false;
+        }
+
+        function validar(){
+          if(validaValor(document.getElementById('primeiro'))){
+            return true;
+          }else{
+            return false;
+          }
+        }
+
+      </script>
+  </head>
+  <body>
+    <div class="container">
+      <form class="row" action="" method="post">
+        <div class="col"> <!-- COLUNA DA ESQUERDA-->
+          <div class="form-group">
+            <label for="primeiro">Primeiro<input type="number" name="primeiro" id="primeiro" value="" class="form-control" onblur="validaValor(this)"></label>
+          </div>
+            <div class="form-group">
+              <label for="segundo">Segundo<input type="number" name="segundo" id="segundo" value="" class="form-control" onblur="validaValor(this)"></label>
+            </div>
+            <div class="form-group">
+              <label for="terceiro">Terceiro<input type="number" name="terceiro" id="terceiro" value="" class="form-control" onblur="validaValor(this)"></label>
+            </div>
+            <div class="form-group">
+              <label for="quarto">Quarto<input type="number" name="quarto" id="quarto" value="" class="form-control" onblur="validaValor(this)"></label>
+            </div>
+            <div class="form-group">
+              <label for="quinto">Quinto<input type="number" name="quinto" id="quinto" value="" class="form-control" onblur="validaValor(this)"></label>
+            </div>
+        </div>
+
+          <div class="col"> <!-- COLUNA DA DIREITA-->
+            <div class="form-group">
+              <label for="sorteado">Número Sorteado<input type="text" name="sorteado" id="sorteado" value="" class="form-control" disabled></label>
+            </div>
+            <div class="form-group">
+              <input type="submit" name="enviar" value="Sortear" class="btn btn-info" onclick="return validar()"/>
+            </div>
+          </div>
+      </form>
+    </div>
+    </body>
+</html>

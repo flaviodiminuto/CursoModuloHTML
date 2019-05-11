@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script type="text/javascript">
+
+    function validaInput(input){
+      let noError = false;
+      if(input.value == ""){
+          input.setCustomValidity('O campo '+input.id+' precisa ser preenchido!');
+      }else{
+        input.setCustomValidity('');
+        noError = true;
+      }
+      return noError;
+    }
+
+    function validaTelefone(){
+      if(validaInput(document.getElementById('telefone'))
+      || validaInput(document.getElementById('celular'))){
+        document.getElementById('telefone').setCustomValidity('');
+        document.getElementById('celular').setCustomValidity('');
+        return true;
+      }else{
+        document.getElementById('telefone').setCustomValidity('O campo TELEFONE ou CELULAR deve ser preenchido');
+        return false;
+      }
+    }
+    function validaEmail(input){
+      if(!validaInput(input)){
+        return false;
+      }
+      let padrao =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if(!padrao.test(input.value)){
+          input.setCustomValidity('O formato de email não é válido');
+        return false;
+      }
+      input.setCustomValidity('');
+      return true;
+    }
+
+    function validar(){
+      if(validaInput(document.getElementById('nome'))
+         && validaInput(document.getElementById('rua'))
+         && validaInput(document.getElementById('numero'))
+         && validaInput(document.getElementById('bairro'))
+         && validaEmail(document.getElementById('email'))
+         && validaTelefone()){
+           return true;
+       }else{
+         return false;
+       }
+    }
+
+
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <form class="" action="index.html" method="post" onsubmit="">
+        <div class="form-group">
+          <h3>Dados Pessoais</h3>
+        <label for="nome"/>Nome completo
+          <input type="text" name="nome" id="nome" value="" class="form-control" placeholder="Nome"   />
+        </label>
+        </div>
+        <div class="form-group">
+          <h3>Endereço</h3>
+          <label for="rua">Rua
+            <input type="text" name="rua" id="rua" value="" class="form-control" placeholder="R. Nome da Rua">
+          </label>
+          <label for="numero">Número
+            <input type="text" name="numero" id="numero"value="" class="form-control" placeholder="000">
+          </label>
+          <label for="endereo">Rua
+            <input type="text" name="bairro" id="bairro" value="" class="form-control" placeholder="Nome do Bairro">
+          </label>
+        </div>
+        <div class="form-group">
+          <h3>Contato</h3>
+          <label for="email">E-mail
+            <input type="text" name="email" id="email" value="" class="form-control" placeholder="email@dominio.com">
+          </label>
+        </div>
+        <div class="form-group">
+          <label for="telefone">Telefone
+            <input type="text" name="telefone" id="telefone" value="" class="form-control" placeholder="(00) 0000-0000">
+          </label>
+        </div>
+        <div class="form-group">
+          <label for="celular">Celular
+            <input type="text" name="celular" id="celular" value="" class="form-control" placeholder="(00) 00000-0000">
+          </label>
+        </div>
+        <div class="form-group">
+          <input type="submit" name="cadastrar" value="Cadastrar" class="btn btn-primary form-control" onclick="validar()" />
+        </div>
+      </form>
+    </div>
+
+  </body>
+</html>
