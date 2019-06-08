@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+  </head>
+  <body>
+    <div class="container">
+      <button type="button" name="btn_ajax" class="btn btn-primary" id="btn_carregar">Carregar Lista</button>
+      <table id="tabela" class="table">
+          <thead id="pacientes_thead">
+
+          </thead>
+          <tbody id="pacientes_tbody">
+
+          </tbody>
+      </table>
+    </div>
+    <script type="text/javascript">
+    var url = "https://api-pacientes.herokuapp.com/pacientes";
+      $("#btn_carregar").click(function(){
+        $("#pacientes_thead").text(preenche_cabecalho());
+        $("#pacientes_tbody").text(preenche_tabela());
+      });
+      function preenche_cabecalho(){
+        var head = nova_linha();
+        head.append(elemento_cabecalho("NOME"));
+        head.append(elemento_cabecalho("PESO"));
+        head.append(elemento_cabecalho("ALTURA"));
+        head.append(elemento_cabecalho("GORDURA"));
+        head.append(elemento_cabecalho("IMC"));
+        return head;
+      }
+      function preenche_tabela(){
+        $.get(url, function(data,status){
+          //alert("data "+data+"\nstatus "+status);
+          var pacientes = data;
+          for(let i = 0; i< pacientes.length ; i++){
+            var linha = nova_linha();
+            linha.append(elemento(pacientes[i].nome));
+            linha.append(elemento(pacientes[i].peso));
+            linha.append(elemento(pacientes[i].altura));
+            linha.append(elemento(pacientes[i].gordura));
+            linha.append(elemento(pacientes[i].imc));
+            return linha;
+          }
+        });
+      }
+      function nova_linha(){
+        return $("<tr></tr>");
+      }
+      function elemento_cabecalho(valor){
+        return $("<th></th>").text(valor);
+      }
+      function elemento(valor){
+        return $("<td></td>").text(valor);
+      }
+    </script>
+</html>

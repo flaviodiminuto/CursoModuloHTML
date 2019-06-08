@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script type="text/javascript">
+    function carregar_pacientes(){
+        var conteudo = document.querySelector("#tabela");
+        var thead = document.querySelector("#pacientes-thead");
+        var trtemp = document.createElement("tr");
+        var tdtemp = document.createElement("td");
+        tdtemp.innerText = "teste";
+        trtemp.append(tdtemp);
+        thead.append(trtemp);
+
+        var tbody = document.querySelector("#pacientes-tbody");
+        var request = new XMLHttpRequest();
+        request.open("GET","https://api-pacientes.herokuapp.com/pacientes",true);
+        request.onreadystatechange = function (){
+          var linha = "";
+          if(request.status == 200){
+            var pacientes = JSON.parse(request.responseText);
+
+            linha += "<tr><th>Nome</th>";
+            linha += "<th>Peso (Kg)</th>";
+            linha += "<th>Altura (m)</th>";
+            linha += "<th>Gordura</th>";
+            linha += "<th>IMC</th></tr>";
+            for(let i = 0; i< pacientes.length ; i++){
+              //nome, peso, altura, gordura, imc
+              linha += "<tr><td>"+pacientes[i].nome;+"</td>";
+              linha += "<td>"+pacientes[i].peso;+"</td>";
+              linha += "<td>"+pacientes[i].altura;+"</td>";
+              linha += "<td>"+pacientes[i].gordura;+"</td>";
+              linha += "<td>"+pacientes[i].imc;+"</td></tr>";
+            }
+          }else{
+            linha = "Sem dados de pacientes disponíveis";
+          }
+          tabela.innerHTML = linha;
+        };
+        request.send();
+      }
+
+
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <button type="button" name="btn_ajax" onclick="carregar_pacientes()" class="btn btn-primary">Carregar Lista</button>
+      <table id="tabela" class="table">
+          <thead id="pacientes-thead">
+
+          </thead>
+          <tbody id="pacientes-tbody">
+
+          </tbody>
+      </table>
+    </div>
+</html>
