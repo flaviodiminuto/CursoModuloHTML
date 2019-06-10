@@ -24,8 +24,10 @@
     <script type="text/javascript">
     var url = "https://api-pacientes.herokuapp.com/pacientes";
       $("#btn_carregar").click(function(){
-        $("#pacientes_thead").text(preenche_cabecalho());
-        $("#pacientes_tbody").text(preenche_tabela());
+        $("#pacientes_thead").empty();
+        $("#pacientes_tbody").empty();
+        $("#pacientes_thead").append(preenche_cabecalho());
+        preenche_tabela($("#pacientes_tbody"));
       });
       function preenche_cabecalho(){
         var head = nova_linha();
@@ -36,7 +38,7 @@
         head.append(elemento_cabecalho("IMC"));
         return head;
       }
-      function preenche_tabela(){
+      function preenche_tabela(tbody){
         $.get(url, function(data,status){
           //alert("data "+data+"\nstatus "+status);
           var pacientes = data;
@@ -47,7 +49,7 @@
             linha.append(elemento(pacientes[i].altura));
             linha.append(elemento(pacientes[i].gordura));
             linha.append(elemento(pacientes[i].imc));
-            return linha;
+            tbody.append(linha);
           }
         });
       }
