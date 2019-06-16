@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<title>Tabela dinamica</title>
+
+	<script>
+
+		var idDinamico = 1;
+
+		function remover(e){
+			e.parentElement.remove();
+		}
+
+		function adicionar(){
+			var tr = document.createElement("tr");
+			var tdId = document.createElement("td");
+			var tdNome = document.createElement("td");
+			var tdBotao = document.createElement("td");
+
+			var botaoRemover = document.createElement("button");
+
+			tdBotao.append(botaoRemover);
+
+			botaoRemover.innerText = "remover";
+			botaoRemover.addEventListener("click", function(){
+				remover(tdBotao)
+			});
+
+
+			tdId.innerText = idDinamico++;
+			tdNome.innerText = "Teste";
+
+			tr.append(tdId);
+			tr.append(tdNome);
+			tr.append(tdBotao);
+
+
+			document.querySelector("#tabela_dinamica").append(tr);
+		}
+
+	</script>
+
+</head>
+<body>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nome</th>
+				<th>Ações</th>
+			</tr>
+		</thead>
+		<tbody id="tabela_dinamica">
+		</tbody>
+	</table>
+
+	<br><br>
+
+	<button onclick="adicionar()">Adicionar</button>
+
+</body>

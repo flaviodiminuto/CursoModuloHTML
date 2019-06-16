@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+    <table border="1px">
+      <caption>Contatos</caption>
+      <thead>
+        <td>ID</td>
+        <td>Nome</td>
+        <td>E-mail</td>
+        <td>Alterar</td>
+        <td>Remover</td>
+      </thead>
+      <tbody id="corpo-tabela-contato">
+
+      </tbody>
+    </table>
+    <form class="form-contato" action="index.html" method="post">
+      <h2>Administração de contatos</h2>
+      <label for="">ID:<input type="text" name="form-id"  disabled></label><br>
+      <label for="">Nome: <input type="text" name="form-nome"></label><br>
+      <label for="">E-mail: <input type="text" name="form-email"></label><br>
+      <button type="button" name="button">Salvar</button>
+    </form>
+  </body>
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script type="text/javascript">
+    var url = "https://aws-contatos-api.herokuapp.com/contatos/";
+      $(document).ready(function(){
+        preenche_tabela();
+      });
+
+      function preenche_tabela(){
+        $.get(url,function(data,status){
+          console.log("dados consultados");
+          preencher_campos(contatos);
+        });
+      }
+      function ler_contato(){
+
+      }
+      function atualizar_contato(){
+
+      }
+      function preencher_campos(contatos){
+        for(let i = 0; i< contatos.length ; i++){
+          var linha = $("<tr></tr>");
+          linha.append("<td></td>").text(contato[i].id);
+          linha.append("<td></td>").text(contato[i].nome);
+          linha.append("<td></td>").text(contato[i].email );
+          $("corpo-tabela-contato").append(linha);
+        }
+      }
+  </script>
+</html>
