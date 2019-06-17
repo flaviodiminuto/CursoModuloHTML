@@ -21,15 +21,15 @@
     </table>
     <form class="form-contato" action="index.html" method="post">
       <h2>Administração de contatos</h2>
-      <label for="">ID:<input type="text" name="form-id"  disabled></label><br>
-      <label for="">Nome: <input type="text" name="form-nome"></label><br>
-      <label for="">E-mail: <input type="text" name="form-email"></label><br>
-      <button type="button" name="button">Salvar</button>
+      <label for="form-id">ID:<input type="text" name="form-id" id="form-id" disabled></label><br>
+      <label for="form-nome">Nome: <input type="text" name="form-nome" id="form-nome"></label><br>
+      <label for="form-email">E-mail: <input type="text" name="form-email" id="form-email"></label><br>
+      <button type="button" name="button" id="btn_salvar">Salvar</button>
     </form>
   </body>
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
   <script type="text/javascript">
-    var url = "https://aws-contatos-api.herokuapp.com/contatos/";
+  var url = "https://api-pacientes.herokuapp.com/pacientes";
       $(document).ready(function(){
         preenche_tabela();
       });
@@ -37,23 +37,51 @@
       function preenche_tabela(){
         $.get(url,function(data,status){
           console.log("dados consultados");
-          preencher_campos(contatos);
+          preencher_campos(data);
         });
       }
-      function ler_contato(){
+
+      function alterar_contato(){
 
       }
-      function atualizar_contato(){
-
+      function remover_contato(){
+        var linha = $(this).parent().remove();
+        linha.remove();
       }
       function preencher_campos(contatos){
         for(let i = 0; i< contatos.length ; i++){
           var linha = $("<tr></tr>");
-          linha.append("<td></td>").text(contato[i].id);
-          linha.append("<td></td>").text(contato[i].nome);
-          linha.append("<td></td>").text(contato[i].email );
-          $("corpo-tabela-contato").append(linha);
+          var botao_alterar = $("<button>Alterar</button>").toggleClass("btn_alterar");
+          var botao_remover = $("<button>Remover</button>").toggleClass("btn_remover");
+          var td_id = $("<td></td>").text("00");
+          var td_nome = $("<td></td>").text(contatos[i].nome);
+          var td_email = $("<td></td>").text("email");
+          var td_botao_alterar = $("<td></td>").append(botao_alterar);
+          var td_botao_remover = $("<td></td>").append(botao_remover);
+
+          linha.append(td_id);
+          linha.append(td_nome);
+          linha.append(td_email);
+          linha.append(td_botao_alterar);
+          linha.append(td_botao_remover);
+          $("#corpo-tabela-contato").append(linha);
         }
       }
+        $(document).on('click','.btn_alterar',function(){
+          var linha = $(this).parent().parent();
+          var td_id = linha.children("td:nth-child(1)");
+          var td_nome = linha.children("td:nth-child(2)");
+          var td_email = linha.children("td:nth-child(3)");
+          //alert("id: "+td_id.text()+ " nome: "+td_nome.text()+" email: "+td_email.text());
+          //alert(linha.get(0).tagName);
+          $("#form-id").val(td_id.text());
+          $("#form-nome").val(td_nome.text());
+          $("#form-email").val(td_email.text());
+          $("#btn_salvar").text("Salvar alteração");
+        });
+        $(document).on('click','.btn_remover',function(){
+          $(this).parent().parent().remove();
+        });
+
   </script>
 </html>
