@@ -35,15 +35,13 @@
   </body>
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
   <script type="text/javascript">
-  var url1 = "https://aws-contatos-api.herokuapp.com/contatos";
-  var url = "https://api-pacientes.herokuapp.com/pacientes";
+  var url = "https://aws-contatos-api.herokuapp.com/contatos";
       $(document).ready(function(){
         preenche_tabela();
       });
 
       function preenche_tabela(){
         $.get(url,function(data,status){
-          console.log("dados consultados");
           preencher_campos(data);
         });
       }
@@ -51,7 +49,7 @@
         var nome = $("#form-nome").val();
         var email = $("#form-email").val();
         var data = { "nome" : nome, "email" : email };
-        $.post(url1, data, "json");
+        $.post(url, data, "json");
         console.log("Contato salvo");
       }
 
@@ -67,9 +65,9 @@
           var linha = $("<tr></tr>");
           var botao_alterar = $("<button>Alterar</button>").toggleClass("btn_alterar");
           var botao_remover = $("<button>Remover</button>").toggleClass("btn_remover");
-          var td_id = $("<td></td>").text("00");
+          var td_id = $("<td></td>").text(contatos[i].id);
           var td_nome = $("<td></td>").text(contatos[i].nome);
-          var td_email = $("<td></td>").text("email");
+          var td_email = $("<td></td>").text(contatos[i].email);
           var td_botao_alterar = $("<td></td>").append(botao_alterar);
           var td_botao_remover = $("<td></td>").append(botao_remover);
 
