@@ -2,7 +2,13 @@
 <html lang="pt-br">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>go semantic</title>
+    <link rel="stylesheet" type="text/css" href="https://semantic-ui.com/dist/semantic.min.css">
+  <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"></script>
+    <script src="https://semantic-ui.com/dist/semantic.min.js"></script>
     <style media="screen">
       .invisivel{
         display: none;
@@ -11,8 +17,8 @@
   </head>
   <body>
 
-    <table>
-      <caption>Contatos</caption>
+    <table   class="ui celled striped table ui centered ">
+      <caption class="ui top attached big label">Contatos</caption>
       <thead>
         <td>ID</td>
         <td>Nome</td>
@@ -24,24 +30,26 @@
 
       </tbody>
     </table>
-    <form class="form-contato" action="index.html" method="post">
-      <h2>Administração de contatos</h2>
-      <label for="form-id" class="invisivel" id="lbl_id">ID:<input type="text" name="form-id" id="form-id" disabled></label><br>
+    <form "class="ui form"" action="index.html" method="post">
+      <h2 class="ui dividing header">Administração de contatos</h2>
+      <label for="form-id" class="invisivel" id="lbl_id">ID:</label><input type="text" name="form-id" id="form-id" disabled>
       <label for="form-nome">Nome: <input type="text" name="form-nome" id="form-nome"></label><br>
       <label for="form-email">E-mail: <input type="text" name="form-email" id="form-email"></label><br>
-      <button type="button" name="button" id="btn_salvar">Salvar</button>
+      <button type="button" name="button" id="btn_salvar" class="ui button"><i class="save icon"></i>Salvar</button>
       <input type="hidden" id="acao" value = "salvar"/>
     </form>
   </body>
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
   <script type="text/javascript">
-  var url = "https://aws-contatos-api.herokuapp.com/contatos";
+  var url1 = "https://aws-contatos-api.herokuapp.com/contatos";
+  var url = "https://api-pacientes.herokuapp.com/pacientes";
       $(document).ready(function(){
         preenche_tabela();
       });
 
       function preenche_tabela(){
-        $.get(url,function(data,status){
+        $.get(url1,function(data,status){
+          console.log("dados consultados");
           preencher_campos(data);
         });
       }
@@ -49,7 +57,7 @@
         var nome = $("#form-nome").val();
         var email = $("#form-email").val();
         var data = { "nome" : nome, "email" : email };
-        $.post(url, data, "json");
+        $.post(url1, data, "json");
         console.log("Contato salvo");
       }
 
@@ -63,13 +71,19 @@
       function preencher_campos(contatos){
         for(let i = 0; i< contatos.length ; i++){
           var linha = $("<tr></tr>");
-          var botao_alterar = $("<button>Alterar</button>").toggleClass("btn_alterar");
-          var botao_remover = $("<button>Remover</button>").toggleClass("btn_remover");
+          var botao_alterar = $("<button></button>");
+          var botao_remover = $("<button></button>");
           var td_id = $("<td></td>").text(contatos[i].id);
           var td_nome = $("<td></td>").text(contatos[i].nome);
           var td_email = $("<td></td>").text(contatos[i].email);
           var td_botao_alterar = $("<td></td>").append(botao_alterar);
           var td_botao_remover = $("<td></td>").append(botao_remover);
+          botao_alterar.toggleClass("ui button");
+          botao_alterar.append('<i class="pencil alternate icon"></i>');
+          botao_alterar.append('Alterar');
+          botao_remover.toggleClass("ui button");
+          botao_remover.append('<i class="trash alternate icon"></i>');
+          botao_remover.append('Remover');
 
           linha.append(td_id);
           linha.append(td_nome);
@@ -104,5 +118,6 @@
           }
 
         });
+
   </script>
 </html>
