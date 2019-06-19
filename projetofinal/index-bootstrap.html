@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style media="screen">
+      .invisivel{
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+
+    <table class=" container table table-striped table-hover table-dark" >
+      <caption>Contatos</caption>
+      <thead>
+        <td>ID</td>
+        <td>Nome</td>
+        <td>E-mail</td>
+        <td>Alterar</td>
+        <td>Remover</td>
+      </thead>
+      <tbody id="corpo-tabela-contato">
+
+      </tbody>
+    </table>
+    <form class="form-contato container form " action="index.html" method="post">
+      <h2>Administração de contatos</h2>
+      <label for="form-id" class="invisivel" id="lbl_id">ID:<input type="text" name="form-id" id="form-id" disabled></label><br>
+      <label for="form-nome">Nome: <input type="text" name="form-nome" id="form-nome"></label><br>
+      <label for="form-email">E-mail: <input type="text" name="form-email" id="form-email"></label><br>
+      <button type="button" name="button" id="btn_salvar">Salvar</button>
+      <input type="hidden" id="acao" value = "salvar"/>
+    </form>
+  </body>
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script type="text/javascript">
+  var url = "https://api-pacientes.herokuapp.com/pacientes";
+      $(document).ready(function(){
+        preenche_tabela();
+      });
+
+      function preenche_tabela(){
+        $.get(url,function(data,status){
+          console.log("dados consultados");
+          preencher_campos(data);
+        });
+      }
+      function salvar_novo_contato(){
+        var nome = $("#form-nome").val();
+        var email = $("#form-email").val();
+        var data = { "nome" : nome, "email" : email };
+        $.post('https://aws-contatos-api.herokuapp.com/contatos', data, "json");
+        console.log("Contato salvo");
+      }
+
+      function alterar_contato(){
+
+      }
+      function remover_contato(){
+        var linha = $(this).parent().remove();
+        linha.remove();
+      }
+      function preencher_campos(contatos){
+        for(let i = 0; i< contatos.length ; i++){
+          var linha = $("<tr></tr>");
+          var botao_alterar = $("<button>Alterar</button>").toggleClass("btn_alterar");
+          var botao_remover = $("<button>Remover</button>").toggleClass("btn_remover");
+          var td_id = $("<td></td>").text("00");
+          var td_nome = $("<td></td>").text(contatos[i].nome);
+          var td_email = $("<td></td>").text("email");
+          var td_botao_alterar = $("<td></td>").append(botao_alterar);
+          var td_botao_remover = $("<td></td>").append(botao_remover);
+          // linha.toggleClass("row");
+          // td_id.toggleClass("col-2");
+          // td_nome.toggleClass("col-4");
+          // // td_email.toggleClass("col-3");
+          // td_botao_remover.toggleClass("col-4");
+          // td_botao_alterar.toggleClass("col-4");
+          botao_alterar.toggleClass("btn btn-secondary");
+          botao_remover.toggleClass("btn btn-secondary");
+
+          linha.append(td_id);
+          linha.append(td_nome);
+          linha.append(td_email);
+          linha.append(td_botao_alterar);
+          linha.append(td_botao_remover);
+          $("#corpo-tabela-contato").append(linha);
+        }
+      }
+        $(document).on('click','.btn_alterar',function(){
+          var linha = $(this).parent().parent();
+          var td_id = linha.children("td:nth-child(1)");
+          var td_nome = linha.children("td:nth-child(2)");
+          var td_email = linha.children("td:nth-child(3)");
+          //alert("id: "+td_id.text()+ " nome: "+td_nome.text()+" email: "+td_email.text());
+          //alert(linha.get(0).tagName);
+          $("#form-id").val(td_id.text());
+          $("#form-nome").val(td_nome.text());
+          $("#form-email").val(td_email.text());
+          $("#acao").val("editar");
+          $("#lbl_id").removeClass("invisivel");
+        });
+        $(document).on('click','.btn_remover',function(){
+          $(this).parent().parent().remove();
+        });
+
+        $(document).on('click','#btn_salvar',function(){
+          if($("#acao").val() == "salvar"){
+              salvar_novo_contato();
+          }else{
+              alterar_contato();
+          }
+
+        });
+
+  </script>
+</html>
