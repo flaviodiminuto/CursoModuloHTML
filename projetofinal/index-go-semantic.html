@@ -30,14 +30,36 @@
 
       </tbody>
     </table>
-    <form "class="ui form"" action="index.html" method="post">
-      <h2 class="ui dividing header">Administração de contatos</h2>
-      <label for="form-id" class="invisivel" id="lbl_id">ID:</label><input type="text" name="form-id" id="form-id" disabled>
-      <label for="form-nome">Nome: <input type="text" name="form-nome" id="form-nome"></label><br>
-      <label for="form-email">E-mail: <input type="text" name="form-email" id="form-email"></label><br>
-      <button type="button" name="button" id="btn_salvar" class="ui button"><i class="save icon"></i>Salvar</button>
-      <input type="hidden" id="acao" value = "salvar"/>
-    </form>
+    <div class="ui grid centered row" >
+      <form class="ui form eight wide column ui border radius" style="border:solid 1px #eee; border-radius:10px; margin-top:10px;" action="index.html" method="post">
+          <h3 class="ui dividing header centered row">Administração de contatos</h3>
+          <div class="two fields">
+            <div class="field">
+                <label for="form-id" id="lbl_id">ID:</label>
+                <div class="field">
+                  <input type="text" name="form-id" id="form-id" disabled>
+                </div>
+            </div>
+            <div class="field">
+              <label for="form-nome">Nome: </label>
+              <div class="field">
+                <input type="text" name="form-nome" id="form-nome">
+              </div>
+            </div>
+          </div>
+
+        <div class="field">
+          <label for="form-email">E-mail: </label>
+          <div class="field">
+            <input type="text" name="form-email" id="form-email">
+          </div>
+        </div>
+
+        <button type="button" name="button" id="btn_salvar" class="ui submit button"><i class="save icon"></i>Salvar</button>
+        <input type="hidden" id="acao" value = "salvar"/>
+      </form>
+    </div>
+
   </body>
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
   <script type="text/javascript">
@@ -71,8 +93,8 @@
       function preencher_campos(contatos){
         for(let i = 0; i< contatos.length ; i++){
           var linha = $("<tr></tr>");
-          var botao_alterar = $("<button></button>");
-          var botao_remover = $("<button></button>");
+          var botao_alterar = $("<button></button>").toggleClass("btn_alterar");
+          var botao_remover = $("<button></button>").toggleClass("btn_remover");
           var td_id = $("<td></td>").text(contatos[i].id);
           var td_nome = $("<td></td>").text(contatos[i].nome);
           var td_email = $("<td></td>").text(contatos[i].email);
@@ -105,6 +127,7 @@
           $("#form-email").val(td_email.text());
           $("#acao").val("editar");
           $("#lbl_id").removeClass("invisivel");
+          $("#form-id").removeClass("invisivel");
         });
         $(document).on('click','.btn_remover',function(){
           $(this).parent().parent().remove();

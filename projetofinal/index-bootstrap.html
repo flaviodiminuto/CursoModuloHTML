@@ -5,6 +5,7 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style media="screen">
       .invisivel{
@@ -13,32 +14,49 @@
     </style>
   </head>
   <body>
+<div class="container">
+  <table class="table table-striped table-hover table-dark" >
+    <caption style="caption-side: top;">Contatos</caption>
+    <thead>
+      <td>ID</td>
+      <td>Nome</td>
+      <td>E-mail</td>
+      <td>Alterar</td>
+      <td>Remover</td>
+    </thead>
+    <tbody id="corpo-tabela-contato">
 
-    <table class=" container table table-striped table-hover table-dark" >
-      <caption>Contatos</caption>
-      <thead>
-        <td>ID</td>
-        <td>Nome</td>
-        <td>E-mail</td>
-        <td>Alterar</td>
-        <td>Remover</td>
-      </thead>
-      <tbody id="corpo-tabela-contato">
+    </tbody>
+  </table>
+  <div class="">
 
-      </tbody>
-    </table>
-    <form class="form-contato container form " action="index.html" method="post">
-      <h2>Administração de contatos</h2>
-      <label for="form-id" class="invisivel" id="lbl_id">ID:<input type="text" name="form-id" id="form-id" disabled></label><br>
-      <label for="form-nome">Nome: <input type="text" name="form-nome" id="form-nome"></label><br>
-      <label for="form-email">E-mail: <input type="text" name="form-email" id="form-email"></label><br>
-      <button type="button" name="button" id="btn_salvar">Salvar</button>
-      <input type="hidden" id="acao" value = "salvar"/>
-    </form>
-  </body>
+  </div>
+  <form class="form-contato form col-6 mx-auto" action="index.html" method="post">
+    <h3>Administração de contatos</h3>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="form-id" id="lbl_id">ID:</label>
+        <input class="form-control" type="text" name="form-id" id="form-id" disabled>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="form-nome">Nome: </label>
+        <input class="form-control" type="text" name="form-nome" id="form-nome">
+      </div>
+    </div>
+
+    <div class="form-group">
+        <label for="form-email">E-mail: </label>
+        <input class="form-control" type="text" name="form-email" id="form-email">
+    </div>
+
+    <button type="button" name="button" id="btn_salvar" class="btn btn btn-secondary"><i class="fa fa-floppy-o">&nbsp;</i>Salvar</button>
+    <input type="hidden" id="acao" value = "salvar"/>
+  </form>
+</div>
+</body>
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
   <script type="text/javascript">
-  var url = "https://api-pacientes.herokuapp.com/pacientes";
+  var url  = "https://aws-contatos-api.herokuapp.com/contatos";
       $(document).ready(function(){
         preenche_tabela();
       });
@@ -67,19 +85,17 @@
       function preencher_campos(contatos){
         for(let i = 0; i< contatos.length ; i++){
           var linha = $("<tr></tr>");
-          var botao_alterar = $("<button>Alterar</button>").toggleClass("btn_alterar");
-          var botao_remover = $("<button>Remover</button>").toggleClass("btn_remover");
-          var td_id = $("<td></td>").text("00");
+          var botao_alterar = $("<button></button>").toggleClass("btn_alterar");
+          var botao_remover = $("<button></button>").toggleClass("btn_remover");
+          var td_id = $("<td></td>").text(contatos[i].id);
           var td_nome = $("<td></td>").text(contatos[i].nome);
-          var td_email = $("<td></td>").text("email");
+          var td_email = $("<td></td>").text(contatos[i].email);
           var td_botao_alterar = $("<td></td>").append(botao_alterar);
           var td_botao_remover = $("<td></td>").append(botao_remover);
-          // linha.toggleClass("row");
-          // td_id.toggleClass("col-2");
-          // td_nome.toggleClass("col-4");
-          // // td_email.toggleClass("col-3");
-          // td_botao_remover.toggleClass("col-4");
-          // td_botao_alterar.toggleClass("col-4");
+          botao_remover.append('<i class="fa fa-trash-o">&nbsp;</i>');
+          botao_alterar.append('<i class="fa fa-pencil">&nbsp;</i>');
+          botao_remover.append('Remover');
+          botao_alterar.append('Alterar');
           botao_alterar.toggleClass("btn btn-secondary");
           botao_remover.toggleClass("btn btn-secondary");
 
@@ -91,31 +107,32 @@
           $("#corpo-tabela-contato").append(linha);
         }
       }
-        $(document).on('click','.btn_alterar',function(){
-          var linha = $(this).parent().parent();
-          var td_id = linha.children("td:nth-child(1)");
-          var td_nome = linha.children("td:nth-child(2)");
-          var td_email = linha.children("td:nth-child(3)");
-          //alert("id: "+td_id.text()+ " nome: "+td_nome.text()+" email: "+td_email.text());
-          //alert(linha.get(0).tagName);
-          $("#form-id").val(td_id.text());
-          $("#form-nome").val(td_nome.text());
-          $("#form-email").val(td_email.text());
-          $("#acao").val("editar");
-          $("#lbl_id").removeClass("invisivel");
-        });
-        $(document).on('click','.btn_remover',function(){
-          $(this).parent().parent().remove();
-        });
+      $(document).on('click','.btn_alterar',function(){
+        var linha = $(this).parent().parent();
+        var td_id = linha.children("td:nth-child(1)");
+        var td_nome = linha.children("td:nth-child(2)");
+        var td_email = linha.children("td:nth-child(3)");
+        //alert("id: "+td_id.text()+ " nome: "+td_nome.text()+" email: "+td_email.text());
+        //alert(linha.get(0).tagName);
+        $("#form-id").val(td_id.text());
+        $("#form-nome").val(td_nome.text());
+        $("#form-email").val(td_email.text());
+        $("#acao").val("editar");
+        $("#lbl_id").removeClass("invisivel");
+        $("#form-id").removeClass("invisivel");
+      });
+      $(document).on('click','.btn_remover',function(){
+        $(this).parent().parent().remove();
+      });
 
-        $(document).on('click','#btn_salvar',function(){
-          if($("#acao").val() == "salvar"){
-              salvar_novo_contato();
-          }else{
-              alterar_contato();
-          }
+      $(document).on('click','#btn_salvar',function(){
+        if($("#acao").val() == "salvar"){
+            salvar_novo_contato();
+        }else{
+            alterar_contato();
+        }
 
-        });
+      });
 
-  </script>
+</script>
 </html>
